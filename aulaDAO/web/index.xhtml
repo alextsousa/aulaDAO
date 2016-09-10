@@ -17,21 +17,41 @@
 
             <h2>Teste Hibernate</h2>
 
-            <p:dataTable var="pessoa" value="#{pessoaController.listaPessoas}">
-                <p:column headerText="Id">
-                    <h:outputText value="#{pessoa.id}" />
-                </p:column>
 
-                <p:column headerText="Nome">
-                    <h:outputText value="#{pessoa.nome}" />
-                </p:column>
+            <h:form id="cadPessoa">
 
-                <p:column headerText="Data Nascimento">
-                    <h:outputText value="#{pessoa.dtNascimento}" />
+                <h:panelGrid columns="2" cellpadding="5">
+                    <h:outputLabel for="nome" value="Nome: "/>
+                    <p:inputText id="nome" value="#{pessoaController.pessoa.nome}"/>
+
+
+                    <p:outputLabel for="dtNasc" value="Data Nascimento:" />
+                    <p:calendar id="dtNasc" value="#{pessoaController.pessoa.dtNascimento}" >
+                        <f:convertDateTime pattern="dd/MM/yyy"/>
+                    </p:calendar>
                     
-                </p:column>
+                    <p:commandButton value="Cadastrar" action="#{pessoaController.cadastrar()}" update="cadPessoa"/>
+                </h:panelGrid>
 
-            </p:dataTable>
+
+                <p:dataTable var="pessoa" value="#{pessoaController.listaPessoas}">
+                    <p:column headerText="Id">
+                        <h:outputText value="#{pessoa.id}" />
+                    </p:column>
+
+                    <p:column headerText="Nome">
+                        <h:outputText value="#{pessoa.nome}" />
+                    </p:column>
+
+                    <p:column headerText="Data Nascimento">
+                        <h:outputText value="#{pessoa.dtNascimento}" >
+                        <f:convertDateTime pattern="dd/MM/yyy"/>
+                        </h:outputText>
+
+                    </p:column>
+
+                </p:dataTable>
+            </h:form>
         </h:body>
 
     </f:view>

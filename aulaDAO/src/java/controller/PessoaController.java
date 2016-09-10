@@ -16,13 +16,21 @@ import model.Pessoa;
 public class PessoaController {
     
     private List<Pessoa> listaPessoas;
+    private Pessoa pessoa;
     
     @ManagedProperty ("#{pessoaDao}")
     private PessoaDao pessoaDao;
     
     @PostConstruct
     public void init(){
+        pessoa = new Pessoa();
         listaPessoas = pessoaDao.listaTodos();
+    }
+    
+    public void cadastrar(){
+        pessoaDao.insere(pessoa);
+        listaPessoas = pessoaDao.listaTodos();
+        
     }
 
     public PessoaDao getPessoaDao() {
@@ -31,6 +39,14 @@ public class PessoaController {
 
     public void setPessoaDao(PessoaDao pessoaDao) {
         this.pessoaDao = pessoaDao;
+    }
+
+    public Pessoa getPessoa() {
+        return pessoa;
+    }
+
+    public void setPessoa(Pessoa pessoa) {
+        this.pessoa = pessoa;
     }
 
     

@@ -20,4 +20,13 @@ public class PessoaDao {
 
         return lista;
     }
+
+    public void insere(Pessoa p1) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction t = session.beginTransaction();
+        
+        session.persist(p1);
+        t.commit();
+
+    }
 }
