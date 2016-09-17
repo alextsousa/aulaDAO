@@ -14,43 +14,90 @@
         </h:head>
 
         <h:body>
-
-            <h2>Teste Hibernate</h2>
-
-
-            <h:form id="cadPessoa">
-
-                <h:panelGrid columns="2" cellpadding="5">
-                    <h:outputLabel for="nome" value="Nome: "/>
-                    <p:inputText id="nome" value="#{pessoaController.pessoa.nome}"/>
+            <h:form>
+                <p:tabView>
+                    <p:tab title="Cadastro">
+                        <h2>Cadastro de pessoas</h2>
 
 
-                    <p:outputLabel for="dtNasc" value="Data Nascimento:" />
-                    <p:calendar id="dtNasc" value="#{pessoaController.pessoa.dtNascimento}" >
-                        <f:convertDateTime pattern="dd/MM/yyy"/>
-                    </p:calendar>
-                    
-                    <p:commandButton value="Cadastrar" action="#{pessoaController.cadastrar()}" update="cadPessoa"/>
-                </h:panelGrid>
 
 
-                <p:dataTable var="pessoa" value="#{pessoaController.listaPessoas}">
-                    <p:column headerText="Id">
-                        <h:outputText value="#{pessoa.id}" />
-                    </p:column>
+                        <h:panelGrid columns="2" cellpadding="5">
+                            <h:outputLabel for="nome" value="Nome: "/>
+                            <p:inputText id="nome" value="#{pessoaController.pessoa.nome}"/>
 
-                    <p:column headerText="Nome">
-                        <h:outputText value="#{pessoa.nome}" />
-                    </p:column>
 
-                    <p:column headerText="Data Nascimento">
-                        <h:outputText value="#{pessoa.dtNascimento}" >
-                        <f:convertDateTime pattern="dd/MM/yyy"/>
-                        </h:outputText>
+                            <p:outputLabel for="dtNasc" value="Data Nascimento:" />
+                            <p:calendar id="dtNasc" value="#{pessoaController.pessoa.dtNascimento}" >
+                                <f:convertDateTime pattern="dd/MM/yyy"/>
+                            </p:calendar>
 
-                    </p:column>
+                            <p:commandButton value="Cadastrar" action="#{pessoaController.cadastrar()}" update="tabPessoa"/>
+                        </h:panelGrid>
 
-                </p:dataTable>
+
+                        <p:dataTable id="tabPessoa" var="pessoa" value="#{pessoaController.listaPessoas}">
+                            <p:column headerText="Id">
+                                <h:outputText value="#{pessoa.id}" />
+                            </p:column>
+
+                            <p:column headerText="Nome">
+                                <h:outputText value="#{pessoa.nome}" />
+                            </p:column>
+
+                            <p:column headerText="Data Nascimento">
+                                <h:outputText value="#{pessoa.dtNascimento}" >
+                                    <f:convertDateTime pattern="dd/MM/yyy"/>
+                                </h:outputText>
+
+                            </p:column>
+
+                        </p:dataTable>
+
+                    </p:tab>
+
+
+                    <p:tab title="Pesquisa">
+
+                        <p:growl id="growl" sticky="true" />  
+
+                        <h:panelGrid columns="2">
+
+                            <p:outputLabel for="codPesquisa" value="Id:" />
+                            <p:inputText id="codPesquisa" value="#{pessoaController.codPesquisa}" />
+
+
+                            <p:outputLabel for="nomePesquisa" value="Nome:" />
+                            <p:inputText id="nomePesquisa" value="#{pessoaController.nomePesquisa}" />
+
+                            <f:facet name="footer">
+                                <p:commandButton value="Pesquisar"
+                                                 action="#{pessoaController.pesquisaPessoa()}"
+                                                 update="tabelaPesquisa growl" />
+                            </f:facet>
+
+                        </h:panelGrid>
+
+                        <p:dataTable id="tabelaPesquisa" value="#{pessoaController.listaPessoasPesquisa}"
+                                     var="pessoa">
+
+                            <p:column headerText="Id">
+                                <h:outputText value="#{pessoa.id}" />
+                            </p:column>
+
+                            <p:column headerText="Nome">
+                                <h:outputText value="#{pessoa.nome}" />
+                            </p:column>
+
+                            <p:column headerText="Data nascimento">
+                                <h:outputText value="#{pessoa.dtNascimento}">
+                                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                                </h:outputText>
+                            </p:column>
+
+                        </p:dataTable>
+                    </p:tab>
+                </p:tabView>
             </h:form>
         </h:body>
 

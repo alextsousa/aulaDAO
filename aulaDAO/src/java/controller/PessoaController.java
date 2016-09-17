@@ -2,13 +2,13 @@
 package controller;
 
 import dao.PessoaDao;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
+import javax.faces.context.FacesContext;
 import model.Pessoa;
 
 @ManagedBean
@@ -17,6 +17,10 @@ public class PessoaController {
     
     private List<Pessoa> listaPessoas;
     private Pessoa pessoa;
+    
+    private String nomePesquisa;
+    private Integer codPesquisa;
+    private List<Pessoa> listaPessoasPesquisa;
     
     @ManagedProperty ("#{pessoaDao}")
     private PessoaDao pessoaDao;
@@ -30,6 +34,19 @@ public class PessoaController {
     public void cadastrar(){
         pessoaDao.insere(pessoa);
         listaPessoas = pessoaDao.listaTodos();
+        
+    }
+    
+    public void pesquisaPessoa() {
+        
+        if ((codPesquisa == null) && (nomePesquisa.isEmpty())) {
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+                            "É necessário informar código ou nome", null));
+        } else if (codPesquisa != null)
+            listaPessoasPesquisa = pessoaDao.listaPorCodigo(codPesquisa);
+        else
+            listaPessoasPesquisa = pessoaDao.listaPorNome(nomePesquisa);
         
     }
 
@@ -47,6 +64,30 @@ public class PessoaController {
 
     public void setPessoa(Pessoa pessoa) {
         this.pessoa = pessoa;
+    }
+
+    public String getNomePesquisa() {
+        return nomePesquisa;
+    }
+
+    public void setNomePesquisa(String nomePesquisa) {
+        this.nomePesquisa = nomePesquisa;
+    }
+
+    public Integer getCodPesquisa() {
+        return codPesquisa;
+    }
+
+    public void setCodPesquisa(Integer codPesquisa) {
+        this.codPesquisa = codPesquisa;
+    }
+
+    public List<Pessoa> getListaPessoasPesquisa() {
+        return listaPessoasPesquisa;
+    }
+
+    public void setListaPessoasPesquisa(List<Pessoa> listaPessoasPesquisa) {
+        this.listaPessoasPesquisa = listaPessoasPesquisa;
     }
 
     
