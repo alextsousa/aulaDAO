@@ -21,6 +21,7 @@ public class PessoaController {
     private String nomePesquisa;
     private Integer codPesquisa;
     private List<Pessoa> listaPessoasPesquisa;
+    private Pessoa pessoaSelecionada;
     
     @ManagedProperty ("#{pessoaDao}")
     private PessoaDao pessoaDao;
@@ -49,7 +50,15 @@ public class PessoaController {
             listaPessoasPesquisa = pessoaDao.listaPorNome(nomePesquisa);
         
     }
-
+    
+    public void atualizaPessoa() {
+        pessoaDao.atualiza(pessoaSelecionada);
+        listaPessoas = pessoaDao.listaTodos();
+        FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_INFO,
+                            "Atualização registrada com sucesso!", null));
+    }
+    
     public PessoaDao getPessoaDao() {
         return pessoaDao;
     }
@@ -62,6 +71,14 @@ public class PessoaController {
         return pessoa;
     }
 
+    public Pessoa getPessoaSelecionada() {
+        return pessoaSelecionada;
+    }
+
+    public void setPessoaSelecionada(Pessoa pessoaSelecionada) {
+        this.pessoaSelecionada = pessoaSelecionada;
+    }
+    
     public void setPessoa(Pessoa pessoa) {
         this.pessoa = pessoa;
     }

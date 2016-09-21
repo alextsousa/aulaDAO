@@ -52,6 +52,8 @@
 
                             </p:column>
 
+
+
                         </p:dataTable>
 
                     </p:tab>
@@ -95,7 +97,40 @@
                                 </h:outputText>
                             </p:column>
 
+                            <p:column headerText="Ações" style="text-align:center;">
+                                <p:commandButton 
+                                    title="Editar" 
+                                    icon="ui-icon-pencil"
+                                    update="@form"
+                                    oncomplete="PF('dlgEditar').show()">
+
+                                    <f:setPropertyActionListener 
+                                        value="#{pessoa}"
+                                        target="#{pessoaController.pessoaSelecionada}" />
+                                </p:commandButton>
+                            </p:column>
+
                         </p:dataTable>
+
+                        <p:dialog header="Editar" widgetVar="dlgEditar" modal="true">
+                            <h:panelGrid columns="2" rendered="#{not empty pessoaController.pessoaSelecionada}" >
+                                <p:outputLabel for="nomeUpdate"  value="Nome:"/>
+                                <p:inputText id="nomeUpdate" value="#{pessoaController.pessoaSelecionada.nome}" />
+
+                                <p:outputLabel for="dtNascUpdate" value="Data Nascimento:" />
+                                <p:inputText id="dtNascUpdate" value="#{pessoaController.pessoaSelecionada.dtNascimento}">
+                                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                                </p:inputText>
+
+                                <f:facet name="footer">
+                                    <p:commandButton value="Atualizar"
+                                                     action="#{pessoaController.atualizaPessoa()}"
+                                                     update="tabela tabelaPesquisa msgPesquisa"
+                                                     oncomplete="PF('dlgEditar').hide();"/>
+                                </f:facet>
+                            </h:panelGrid>
+                        </p:dialog>
+
                     </p:tab>
                 </p:tabView>
             </h:form>
