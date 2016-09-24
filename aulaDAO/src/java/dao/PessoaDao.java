@@ -102,4 +102,22 @@ public class PessoaDao {
             session.close();
         }
     }
+
+    public void remove(Pessoa pessoa) {
+        Session session = HibernateUtil.
+                getSessionFactory().openSession();
+        Transaction t = null;
+        try {
+            t = session.beginTransaction();
+            session.delete(pessoa);
+            t.commit();
+        } catch (Exception e) {
+            if (t != null) {
+                t.rollback();
+            }
+            throw e;
+        } finally {
+            session.close();
+        }
+    }
 }

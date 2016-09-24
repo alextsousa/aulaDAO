@@ -29,7 +29,6 @@ public class PessoaController {
     public void init() {
         pessoa = new Pessoa();
         listaPessoas = pessoaDao.listaTodos();
-
     }
 
     public void cadastrar() {
@@ -59,6 +58,17 @@ public class PessoaController {
                 new FacesMessage(FacesMessage.SEVERITY_INFO,
                         "Atualização registrada com sucesso!", null));
     }
+    
+   public void removePessoa() {
+        pessoaDao.remove(pessoaSelecionada);
+        listaPessoasPesquisa.remove(pessoaSelecionada);
+        listaPessoas = pessoaDao.listaTodos();
+        FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_INFO,
+                            "Registro removido com sucesso!", null));
+    }
+
+    
 
     public PessoaDao getPessoaDao() {
         return pessoaDao;

@@ -6,7 +6,7 @@
       xmlns:p="http://primefaces.org/ui">
 
     <f:view contentType="text/html">
-        
+
         <h:head>
             <f:facet name="first">
                 <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
@@ -31,14 +31,14 @@
 
                             <f:facet name="footer">
                                 <p:commandButton value="Cadastrar"
-                                                 action="#{pessoaController.cadastrar()}"
-                                    update="tabela" />
+                                                 action="#{pessoaController.cadastraPessoa()}"
+                                                 update="tabela" />
                             </f:facet>
                         </h:panelGrid>
 
                         <p:dataTable id="tabela" value="#{pessoaController.listaPessoas}"
-                            var="pessoa">
-                            
+                                     var="pessoa">
+
                             <p:column headerText="Id">
                                 <h:outputText value="#{pessoa.id}" />
                             </p:column>
@@ -67,15 +67,15 @@
 
                             <f:facet name="footer">
                                 <p:commandButton value="Pesquisar"
-                                    action="#{pessoaController.pesquisaPessoa()}"
-                                    update="tabelaPesquisa" />
+                                                 action="#{pessoaController.pesquisaPessoa()}"
+                                                 update="tabelaPesquisa" />
                             </f:facet>
 
                         </h:panelGrid>
 
                         <p:dataTable id="tabelaPesquisa"
-                            value="#{pessoaController.listaPessoasPesquisa}"
-                            var="pessoa">
+                                     value="#{pessoaController.listaPessoasPesquisa}"
+                                     var="pessoa">
 
                             <p:column headerText="Id">
                                 <h:outputText value="#{pessoa.id}" />
@@ -92,6 +92,7 @@
                             </p:column>
 
                             <p:column headerText="Ações" style="text-align:center;">
+
                                 <p:commandButton 
                                     title="Editar" 
                                     icon="ui-icon-pencil"
@@ -102,7 +103,25 @@
                                         value="#{pessoa}"
                                         target="#{pessoaController.pessoaSelecionada}" />
                                 </p:commandButton>
+                            
+                                <p:commandButton 
+                                    title="Remover" 
+                                    icon="ui-icon-trash"
+                                    update="@form"
+                                    action="#{pessoaController.removePessoa()}">
+
+                                    <p:confirm header="Remover registro"
+                                               message="Deseja realmente remover o registro?"
+                                               icon="ui-icon-alert" />
+
+                                    <f:setPropertyActionListener 
+                                        value="#{pessoa}"
+                                        target="#{pessoaController.pessoaSelecionada}" />
+
+
+                                </p:commandButton>
                             </p:column>
+
 
                         </p:dataTable>
 
@@ -118,15 +137,19 @@
 
                                 <f:facet name="footer">
                                     <p:commandButton value="Atualizar"
-                                            action="#{pessoaController.atualizaPessoa()}"
-                                            update="tabela tabelaPesquisa msgPesquisa"
-                                            oncomplete="PF('dlgEditar').hide();"/>
+                                                     action="#{pessoaController.atualizaPessoa()}"
+                                                     update="tabela tabelaPesquisa msgPesquisa"
+                                                     oncomplete="PF('dlgEditar').hide();"/>
                                 </f:facet>
                             </h:panelGrid>
                         </p:dialog>
-                        
+
                     </p:tab>
                 </p:tabView>
+                <p:confirmDialog global="true">
+                    <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                    <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                </p:confirmDialog>
             </h:form>
         </h:body>
     </f:view>
